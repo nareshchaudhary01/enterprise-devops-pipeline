@@ -9,9 +9,8 @@ module "eks" {
   subnet_ids                     = module.vpc.private_subnets
   cluster_endpoint_public_access = true
 
-  # Conflict Fix: Disabling managed KMS key alias creation & cloudwatch logs duplicate conflict
+  # Conflict Fix: Disabling KMS and CloudWatch log duplicate creation
   create_kms_key              = false
-  kms_key_arn                 = null
   create_cloudwatch_log_group = false
 
   eks_managed_node_groups = {
