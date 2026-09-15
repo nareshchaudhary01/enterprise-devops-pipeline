@@ -1,0 +1,23 @@
+---
+- name: Enterprise EKS Worker Node Security Hardening
+  hosts: eks_nodes
+  become: yes
+  tasks:
+    - name: Update apt packages to latest
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install mandatory node monitoring tools
+      apt:
+        name:
+          - curl
+          - htop
+          - net-tools
+        state: present
+
+    - name: Ensure Container Runtime (Docker/containerd) service is running
+      service:
+        name: containerd
+        state: started
+        enabled: yes

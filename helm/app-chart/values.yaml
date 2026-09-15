@@ -1,0 +1,15 @@
+replicaCount: 2
+
+image:
+  repository: your-dockerhub-username/devops-enterprise-app
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 8000
+
+env:
+  ENV_NAME: "Production-EKS"
+  APP_VERSION: "v1.0.0"
