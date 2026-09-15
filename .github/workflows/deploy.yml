@@ -53,16 +53,16 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Terraform Init & Import Existing Resources
+      - name: Terraform Init & Import Existing EKS
         run: |
           cd terraform
           terraform init
 
           terraform import 'module.eks.aws_eks_cluster.this[0]' enterprise-eks-cluster
 
-          terraform import 'module.eks.module.kms.aws_kms_alias.this["cluster"]' alias/eks/enterprise-eks-cluster
+          terraform state show 'module.eks.aws_eks_cluster.this[0]'
 
-          terraform apply -auto-approve
+          terraform plan
 
       # ==========================================
       # 3. ANSIBLE CONFIGURATION SECTION
