@@ -53,15 +53,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Terraform Init & Import Existing EKS
+      - name: Terraform Init & Plan
         run: |
           cd terraform
           terraform init
-
-          terraform import 'module.eks.aws_eks_cluster.this[0]' enterprise-eks-cluster
-
-          terraform state show 'module.eks.aws_eks_cluster.this[0]'
-
           terraform plan
 
       # ==========================================
