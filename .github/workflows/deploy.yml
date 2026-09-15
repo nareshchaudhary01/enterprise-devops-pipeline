@@ -44,7 +44,7 @@ jobs:
       - name: Setup HashiCorp Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.5.0
+          terraform_version: 1.10.0
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -53,10 +53,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Terraform Init & Apply
+      - name: Terraform Init & Import Existing Resources
         run: |
           cd terraform
           terraform init
+
+          terraform import 'module.eks.aws_eks_cluster.this[0]' enterprise-eks-cluster
+
+          terraform import 'module.eks.module.kms.aws_kms_alias.this["cluster"]' alias/eks/enterprise-eks-cluster
+
           terraform apply -auto-approve
 
       # ==========================================
