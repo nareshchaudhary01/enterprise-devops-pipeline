@@ -1,19 +1,11 @@
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "5.1.2"
+data "aws_vpc" "existing" {
+  id = "vpc-01c3119d08414d508"
+}
 
-  name = "enterprise-devops-vpc"
-  cidr = "10.0.0.0/16"
+data "aws_subnet" "private_a" {
+  id = "subnet-0c5b6bc25c6c8e41e"
+}
 
-  azs             = ["us-east-1a", "us-east-1b"]
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
-  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24"]
-
-  enable_nat_gateway   = true
-  single_nat_gateway   = true
-  enable_dns_hostnames = true
-
-  tags = {
-    "kubernetes.io/cluster/enterprise-eks-cluster" = "shared"
-  }
+data "aws_subnet" "private_b" {
+  id = "subnet-0dd25e78d7399cedb"
 }

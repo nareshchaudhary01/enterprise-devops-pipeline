@@ -5,8 +5,12 @@ module "eks" {
   cluster_name    = "enterprise-eks-cluster"
   cluster_version = "1.34"
 
-  vpc_id     = module.vpc.vpc_id
-  subnet_ids = module.vpc.private_subnets
+  vpc_id = data.aws_vpc.existing.id
+
+  subnet_ids = [
+    data.aws_subnet.private_a.id,
+    data.aws_subnet.private_b.id
+  ]
 
   cluster_endpoint_public_access = true
 
